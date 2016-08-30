@@ -1,7 +1,4 @@
-from distutils.version import LooseVersion
-
 from django.core.management.base import BaseCommand
-from django.utils.version import get_version
 from django_rq import get_scheduler
 
 
@@ -10,7 +7,6 @@ class Command(BaseCommand):
     Runs RQ scheduler
     """
     help = __doc__
-    args = '<queue>'
 
     def add_arguments(self, parser):
         parser.add_argument('--interval', '-i', type=int, dest='interval',
@@ -19,8 +15,6 @@ class Command(BaseCommand):
         parser.add_argument('--queue', dest='queue', default='default',
                             help="Name of the queue used for scheduling.",)
 
-        if LooseVersion(get_version()) >= LooseVersion('1.9'):
-            parser.add_argument('args', nargs='*')
 
     def handle(self, *args, **options):
         scheduler = get_scheduler(
